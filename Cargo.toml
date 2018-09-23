@@ -1,0 +1,6 @@
+[package]
+name = "hat"
+version = "0.1.0"
+authors = ["Julien Vehent <julien@linuxwall.info>"]
+
+[dependencies]
