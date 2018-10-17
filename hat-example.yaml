@@ -1,0 +1,62 @@
+profiles:
+    #
+    # this section manages developer accounts
+    #
+    - alias: cloudservices-developer
+      people in: ((mozilla-ldap group cloudservices-developer) or (mozilla-ldap group svcops)) and (mozilla-slack channel engops)
+      manage into:
+          - environment: cloudservices-aws-dev
+            give them:
+                - account
+                - access key
+                - group “developers”
+          - environment: mozilla-datadog
+            give them:
+                - account
+      notify:
+        - user by email
+        - user by slack
+        - mozilla-slack channel secops
+        - mozilla-irc channel svc
+
+    #
+    # this section manages accounts for the ops team
+    #
+    - alias: cloudservices-operator
+      people in: mozilla-ldap group svcops and mozilla-irc channel svc
+      manage into:
+          - environment: firefox-gcp
+            give them:
+                - account
+                - group "operators"
+      notify:
+        - user by email
+        - mozilla-slack channel secops
+#
+# this is a list of environments managed by this configuration
+# so we can simply address them by aliases
+#
+environments:
+    - alias: mozilla-ldap
+      type: ldap
+      uri: ldaps://ldap.example.net:636/mozilla
+      username: foo
+      password: bar
+
+    - alias: cloudservices-aws-dev
+      type: aws
+      access key: ABCDExxxxxxx
+      secret key: foobarbaz
+
+    - alias: mozilla-slack
+      type: slack
+      key: asdh*******
+
+    - alias: mozilla-irc
+      type: irc
+      server: irc.mozilla.org:6697
+
+    - alias: firefox-gcp
+      type: gcp
+      access key: alshdsa****
+      secret key: lshdgf19****
